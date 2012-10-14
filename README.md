@@ -77,7 +77,7 @@ edit(title=MyWikiPage, text=newPageText, bot, summary="my edit summary")
 
 <h2>Future development/known issues</h2>
 <ul>
-<li>Implemented CSV to wiki pages functionality.  Two columns specify the page and template names, while the rest of the columns specify the values for parameters in that template.
+<li>Need to implement CSV to wiki pages functionality.  Two columns will specify the page and template names, while the rest of the columns specify the values for parameters in that template.
 <li>Need to write a function to make it easier to write data back to the template on the wiki page.
 <li>No support yet for multiple-instance templates.  There needs to be a way to distinguish if one wants to edit an existing one, or add another.
 <li>No support yet for adding a new template to a page.
