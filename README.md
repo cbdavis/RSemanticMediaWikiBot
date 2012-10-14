@@ -12,6 +12,8 @@ The main idea is that this bot converts templates into data structures in R.  Fo
 
 ...and then convert this data into a list within R.  The data contained in the list can be accessed via template$point, template$country, etc.
 
+<h2>Basic usage - logging in, reading, editing</h2>
+
 <pre>
 setwd("/dir/to/this/code")
 source("bot.R") 
@@ -36,10 +38,13 @@ edit(title="MyWikiPage",
      summary="my edit summary")
 </pre>
 
+<h2>Working with template data</h2>
 
 Assuming that you are not working with multiple instance templates, you can retrieve and modify the data in a template as such:
 
 <pre>
+textVal = read(title=MyWikiPage, bot)
+templateInfo = extractTemplates(textVal)
 wantThisTemplate = getTemplatesByName("MyTemplate", templateInfo)[[1]]
 valueOfTemplate = wantThisTemplate$data$NameOfTemplateParameter
 </pre>
