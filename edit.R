@@ -1,16 +1,16 @@
-edit <- function(title, summary="", minor=FALSE, text="", apiURL){
+edit <- function(title, summary="", minor=FALSE, text="", bot){
 
   if(is.logical(minor)){
     minor = as.character(minor)
   }
   
-  editResponse1 = postForm(apiURL,
+  editResponse1 = postForm(bot$apiURL,
                            action="query",
                            format="xml",
                            prop="info",
                            titles=title,
                            intoken="edit",
-                           .opts=myOpts)
+                           .opts=bot$curlOpts)
   
   #looks like we can edit now
   
@@ -26,9 +26,7 @@ edit <- function(title, summary="", minor=FALSE, text="", apiURL){
   #minor
   #title (or) pageid
   
-  #TODO change minor=TRUE to "TRUE", or see 
-  
-  editResponse2 = postForm(apiURL,
+  editResponse2 = postForm(bot$apiURL,
                            action="edit",
                            format="xml",
                            prop="info",
@@ -40,5 +38,5 @@ edit <- function(title, summary="", minor=FALSE, text="", apiURL){
                            summary=summary,
                            minor=minor,
                            text=text,
-                           .opts=myOpts)
+                           .opts=bot$curlOpts)
 }

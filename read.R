@@ -1,13 +1,13 @@
-read <- function(title, apiURL, myOpts){
+read <- function(title, bot){
   
-  readResponse = postForm(apiURL,
+  readResponse = postForm(bot$apiURL,
                           action="query",
                           prop="revisions",
                           rvlimit="1",
                           rvprop="content",
                           format="xml",
                           titles=title,
-                          .opts=myOpts)
+                          .opts=bot$curlOpts)
   
   doc = xmlParse(readResponse, useInternalNodes=TRUE)
   pageText <- xmlValue(unlist(getNodeSet(doc, "//api/query/pages/page/revisions/rev/text()", addFinalizer=FALSE))[[1]])
