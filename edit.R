@@ -1,4 +1,4 @@
-edit <- function(title, summary="", minor=FALSE, text="", bot){
+edit <- function(title, text="", bot, summary="", minor=FALSE){
 
   if(is.logical(minor)){
     minor = as.character(minor)
