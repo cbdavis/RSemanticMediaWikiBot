@@ -1,6 +1,16 @@
 RSemanticMediaWikiBot
 =====================
-Bot for editing Semantic MediaWiki templates, written in R.
+This is a bot for editing Semantic MediaWiki templates, and is written in R.  This code is very much in development, and it is highly recommended to test it on a few pages before letting it loose on a wiki.
+
+The main idea is that this bot converts templates into data structures in R.  For example, you to read from a wiki page a template such as:
+<pre>
+{{City
+| point=52.015, 4.356667
+| country=Netherlands
+}}
+</pre>
+
+...whose data is then converted into a list within R.  The data contained in the list can be accessed via template$point, template$country, etc.
 
 <pre>
 setwd("/dir/to/this/code")
@@ -59,3 +69,10 @@ textAfterTemplate = substr(textVal, wantThisTemplate$end+1, 1000000L)
 newPageText = paste(textBeforeTemplate, templateText, textAfterTemplate, sep="")
 edit(title=MyWikiPage, text=newPageText, bot, summary="my edit summary")
 </pre>
+
+<h2>Future development/known issues</h2>
+<ul>
+<li>No support yet for multiple-instance templates.  There needs to be a way to distinguish if one wants to edit an existing one, or add another.
+<li>No support yet for adding a new template to a page.
+<li>When editing a page, no check is done to see if it will create the page.
+</ul>
