@@ -43,7 +43,9 @@ This template with its new value can then be written back to the wiki as such:
 
 <pre>
 header = paste("{{", wantThisTemplate$name, "\n", sep="")
-dataSection = paste(paste(paste("| ", names(wantThisTemplate$data), sep=""), wantThisTemplate$data, sep="="), collapse="\n")
+dataSection = paste(paste(paste("| ", names(wantThisTemplate$data), sep=""), 
+                    wantThisTemplate$data, sep="="), 
+                    collapse="\n")
 footer = "}}"
 
 templateText = paste(header, dataSection, footer, sep="")
