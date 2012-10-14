@@ -72,6 +72,7 @@ edit(title=MyWikiPage, text=newPageText, bot, summary="my edit summary")
 
 <h2>Future development/known issues</h2>
 <ul>
+<li>Need to write a function to make it easier to write data back to the template on the wiki page.
 <li>No support yet for multiple-instance templates.  There needs to be a way to distinguish if one wants to edit an existing one, or add another.
 <li>No support yet for adding a new template to a page.
 <li>When editing a page, no check is done to see if it will create the page.
