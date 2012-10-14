@@ -20,7 +20,10 @@ login(username, password, bot)
 pageTextread(title="MyWikiPage", bot)
 
 #set the text on the page
-edit(title="MyWikiPage", text="this is the new page text", bot, summary="this is a very important edit")
+edit(title="MyWikiPage", 
+     text="this is the new page text", 
+     bot, 
+     summary="my edit summary")
 </pre>
 
 
