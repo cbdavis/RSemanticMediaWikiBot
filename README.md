@@ -43,10 +43,10 @@ edit(title="MyWikiPage",
 Assuming that you are not working with multiple instance templates, you can retrieve and modify the data in a template as such:
 
 <pre>
-textVal = read(title="MyWikiPage", bot)
+template = getTemplateByName("MyTemplateName", "MyWikiPage", bot)[[1]]
 #[[1]] is needed as a list is returned
 #If using multiple-instance templates, then multiple templates will be returned
-template = getTemplateByName("MyTemplateName", "MyWikiPage", bot)[[1]]
+
 valueOfTemplate = template$data$NameOfTemplateParameter
 </pre>
 
