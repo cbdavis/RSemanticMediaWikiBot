@@ -43,42 +43,29 @@ edit(title="MyWikiPage",
 Assuming that you are not working with multiple instance templates, you can retrieve and modify the data in a template as such:
 
 <pre>
-textVal = read(title=MyWikiPage, bot)
-templateInfo = extractTemplates(textVal)
-wantThisTemplate = getTemplatesByName("MyTemplate", templateInfo)[[1]]
-valueOfTemplate = wantThisTemplate$data$NameOfTemplateParameter
+textVal = read(title="MyWikiPage", bot)
+#[[1]] is needed as a list is returned
+#If using multiple-instance templates, then multiple templates will be returned
+template = getTemplateByName("MyTemplateName", "MyWikiPage", bot)[[1]]
+valueOfTemplate = template$data$NameOfTemplateParameter
 </pre>
 
 You can then modify this value by:
 <pre>
-wantThisTemplate$data$NameOfTemplateParameter = newValue
+template$data$NameOfTemplateParameter = newValue
 </pre>
 
 This template with its new value can then be written back to the wiki as such:
 
 <pre>
-header = paste("{{", wantThisTemplate$name, "\n", sep="")
-dataSection = paste(paste(paste("| ", names(wantThisTemplate$data), sep=""), 
-                    wantThisTemplate$data, sep="="), 
-                    collapse="\n")
-footer = "}}"
-
-templateText = paste(header, dataSection, footer, sep="")
-  
-#now put this back in the main text  
-#get text before and after template
-textBeforeTemplate = substr(textVal, 1, wantThisTemplate$start-1)
-textAfterTemplate = substr(textVal, wantThisTemplate$end+1, 1000000L)
-  
-#put all the text back together, with the new contents of the template
-newPageText = paste(textBeforeTemplate, templateText, textAfterTemplate, sep="")
-edit(title=MyWikiPage, text=newPageText, bot, summary="my edit summary")
+writeTemplateToPage(template, bot, editSummary="testing bot")
 </pre>
+
+The template contains information about the page which it came from, so the name of the page does not need to be specified.
 
 <h2>Future development/known issues</h2>
 <ul>
 <li>Need to implement CSV to wiki pages functionality.  Two columns will specify the page and template names, while the rest of the columns specify the values for parameters in that template.
-<li>Need to write a function to make it easier to write data back to the template on the wiki page.
 <li>No support yet for multiple-instance templates.  There needs to be a way to distinguish if one wants to edit an existing one, or add another.
 <li>No support yet for adding a new template to a page.
 <li>When editing a page, no check is done to see if it will create the page.
