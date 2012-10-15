@@ -83,4 +83,5 @@ edit(title=MyWikiPage, text=newPageText, bot, summary="my edit summary")
 <li>No support yet for adding a new template to a page.
 <li>When editing a page, no check is done to see if it will create the page.
 <li>This code needs to be converted to a proper package for use in R.
+<li>Nested template calls may not be parsed correctly
 </ul>
