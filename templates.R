@@ -3,7 +3,9 @@
 #Templates may or may not have underscores instead of spaces
 #would be nice to be able to clean out old parameters that are not used anymore
 
-extractTemplates <- function(textVal){
+extractTemplates <- function(pageTitle, bot){
+  #read the contents of the page
+  textVal = read(title=pageTitle, bot)
   
   #extract all the templates
   matchingInfo = gregexpr("\\{\\{[^\\}]+\\}\\}", textVal)
@@ -55,8 +57,8 @@ extractTemplates <- function(textVal){
       #Convert to a list.  This allows us to reference values via data$point, etc.
       data = as.list(data)
     }
-    templateInfo = list(templateName, start, end, text, parametersAndValues, data)
-    names(templateInfo) = c("name", "start", "end", "text", "parametersAndValues", "data")
+    templateInfo = list(textVal, pageTitle, templateName, start, end, text, parametersAndValues, data)
+    names(templateInfo) = c("pageText", "pageTitle", "name", "start", "end", "text", "parametersAndValues", "data")
     
     allTemplateInfo = c(allTemplateInfo, list(templateInfo))
   }
@@ -64,7 +66,10 @@ extractTemplates <- function(textVal){
   return(allTemplateInfo)
 }
 
-getTemplatesByName <- function(templateName, allTemplateInfo){
+#This can return multiple templates if you are using multiple instance templates
+getTemplateByName <- function(templateName, pageTitle, bot){  
+  allTemplateInfo = extractTemplates(pageTitle, bot)
+  
   templateName = gsub(" ", "_", templateName) #spaces are converted to underscores to ensure consistent matching
   templatesToReturn = NULL
   for (templateInfo in allTemplateInfo){
@@ -73,4 +78,21 @@ getTemplatesByName <- function(templateName, allTemplateInfo){
     }
   }
   return(templatesToReturn)
+}
+
+writeTemplateToPage <- function(template, bot, editSummary=""){
+  header = paste("{{", template$name, "\n", sep="")
+  dataSection = paste(paste(paste("| ", names(template$data), sep=""), template$data, sep="="), collapse="\n")
+  footer = "}}"
+  
+  templateText = paste(header, dataSection, footer, sep="")
+  
+  #now put this back in the main text  
+  #get text before and after template
+  textBeforeTemplate = substr(template$pageText, 1, template$start-1)
+  textAfterTemplate = substr(template$pageText, template$end+1, 1000000L)
+  
+  #put all the text back together, with the new contents of the template
+  newPageText = paste(textBeforeTemplate, templateText, textAfterTemplate, sep="")
+  edit(title=template$pageTitle, summary=editSummary, text=newPageText, bot)
 }

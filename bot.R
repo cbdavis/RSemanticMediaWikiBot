@@ -9,7 +9,7 @@ options(stringsAsFactors = FALSE)
 source("login.R")
 source("edit.R")
 source("read.R")
-source("extractTemplates.R")
+source("templates.R")
 
 
 initializeBot <- function(apiURL){
