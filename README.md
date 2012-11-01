@@ -40,13 +40,17 @@ edit(title="MyWikiPage",
 
 <h2>Working with template data</h2>
 
+<h3>Extracting templates</h3>
 Assuming that you are not working with multiple instance templates, you can retrieve and modify the data in a template as such:
 
 <pre>
 template = getTemplateByName("MyTemplateName", "MyWikiPage", bot)[[1]]
 #[[1]] is needed as a list is returned
 #If using multiple-instance templates, then multiple templates will be returned
+</pre>
 
+<h3>Getting and modifying values of template parameters</h3>
+<pre>
 valueOfTemplate = template$data$NameOfTemplateParameter
 </pre>
 
@@ -55,7 +59,7 @@ You can then modify this value by:
 template$data$NameOfTemplateParameter = newValue
 </pre>
 
-
+<h3>Removing template parameters</h3>
 If you want to completely remove a parameter from a template (i.e. both the key and the value) such as changing this:
 <pre>
 {{City
@@ -74,7 +78,7 @@ then you can just do:
 template$data$point = NULL
 </pre>
 
-
+<h3>Writing the template back to the wiki page</h3>
 The template with its new value can then be written back to the wiki as such:
 
 <pre>
