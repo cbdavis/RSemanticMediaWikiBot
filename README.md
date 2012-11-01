@@ -55,7 +55,22 @@ You can then modify this value by:
 template$data$NameOfTemplateParameter = newValue
 </pre>
 
-This template with its new value can then be written back to the wiki as such:
+
+If you want to completely remove a parameter from a template (i.e. both the key and the value) such as:
+
+{{City
+<del>| point=52.015, 4.356667</del>
+| country=Netherlands
+}}
+
+
+then you can just do:
+<pre>
+template$data$point = NULL
+</pre>
+
+
+The template with its new value can then be written back to the wiki as such:
 
 <pre>
 writeTemplateToPage(template, bot, editSummary="testing bot")
