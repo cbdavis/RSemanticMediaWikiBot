@@ -56,14 +56,20 @@ template$data$NameOfTemplateParameter = newValue
 </pre>
 
 
-If you want to completely remove a parameter from a template (i.e. both the key and the value) such as:
-
+If you want to completely remove a parameter from a template (i.e. both the key and the value) such as changing this:
+<pre>
 {{City
-<del>| point=52.015, 4.356667</del>
+| point=52.015, 4.356667
 | country=Netherlands
 }}
-
-
+</pre>
+to this:
+<pre>
+{{City
+| point=52.015, 4.356667
+| country=Netherlands
+}}
+</pre>
 then you can just do:
 <pre>
 template$data$point = NULL
