@@ -66,7 +66,6 @@ If you want to completely remove a parameter from a template (i.e. both the key 
 to this:
 <pre>
 {{City
-| point=52.015, 4.356667
 | country=Netherlands
 }}
 </pre>
