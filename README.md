@@ -16,6 +16,8 @@ The main idea is that this bot converts templates into data structures in R.  Fo
 
 <h2>Basic usage - logging in, reading, editing</h2>
 
+<h3>Logging in</h3>
+
 <pre>
 setwd("/dir/to/this/code")
 source("bot.R") 
@@ -29,10 +31,16 @@ apiURL = "http://my.wiki.com/wiki/api.php"
 bot = initializeBot(apiURL)
 #login to the wiki
 login(username, password, bot)
+</pre>
 
+<h3>Reading page text</h3>
+<pre>
 #get the text on the page
 pageTextread(title="MyWikiPage", bot)
+</pre>
 
+<h3>Editing and saving page text</h3>
+<pre>
 #set the text on the page
 edit(title="MyWikiPage", 
      text="this is the new page text", 
