@@ -1,6 +1,8 @@
 RSemanticMediaWikiBot
 =====================
-This is a bot for editing Semantic MediaWiki templates, and is written in R.  This code is very much in development, and it is highly recommended to test it on a few pages before letting it loose on a wiki.
+This is an bot developed in R for editing Semantic MediaWiki templates.  This code is very much in development, and it is highly recommended to test it on a few pages before letting it loose on a wiki.
+
+The primary motivation for <a href="http://en.wikipedia.org/wiki/Wikipedia:Creating_a_bot#Programming_languages_and_libraries">Yet Another MediaWiki Bot Framework</a> is that this bot is specifically design to help with batch editing <a href="http://semantic-mediawiki.org/wiki/Help:Semantic_templates"></a> that are commonly used with <a href="http://semantic-mediawiki.org/">Semantic MediaWiki</a>.
 
 The main idea is that this bot converts templates into data structures in R.  For example, it allows you to read from a wiki page a template such as:
 <pre>
