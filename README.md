@@ -27,21 +27,17 @@ username=USERNAME
 password=PASSWORD
 apiURL = "http://my.wiki.com/wiki/api.php"
 
-#initialize the bot
-bot = initializeBot(apiURL)
-#login to the wiki
-login(username, password, bot)
+bot = initializeBot(apiURL) #initialize the bot
+login(username, password, bot) #login to the wiki
 </pre>
 
 <h3>Reading page text</h3>
 <pre>
-#get the text on the page
-pageTextread(title="MyWikiPage", bot)
+text = pageTextread(title="MyWikiPage", bot) 
 </pre>
 
 <h3>Editing and saving page text</h3>
 <pre>
-#set the text on the page
 edit(title="MyWikiPage", 
      text="this is the new page text", 
      bot, 
