@@ -1,6 +1,8 @@
 RSemanticMediaWikiBot
 =====================
-This is a bot for editing Semantic MediaWiki templates, and is written in R.  This code is very much in development, and it is highly recommended to test it on a few pages before letting it loose on a wiki.
+This is an bot developed in R for editing Semantic MediaWiki templates.  This code is very much in development, and it is highly recommended to test it on a few pages before letting it loose on a wiki.
+
+The primary motivation for <a href="http://en.wikipedia.org/wiki/Wikipedia:Creating_a_bot#Programming_languages_and_libraries">Yet Another MediaWiki Bot Framework</a> is that this bot is specifically design to help with batch editing of data contained within <a href="http://semantic-mediawiki.org/wiki/Help:Semantic_templates">Semantic Templates</a> that are commonly used with <a href="http://semantic-mediawiki.org/">Semantic MediaWiki</a>.
 
 The main idea is that this bot converts templates into data structures in R.  For example, it allows you to read from a wiki page a template such as:
 <pre>
@@ -14,6 +16,8 @@ The main idea is that this bot converts templates into data structures in R.  Fo
 
 <h2>Basic usage - logging in, reading, editing</h2>
 
+<h3>Logging in</h3>
+
 <pre>
 setwd("/dir/to/this/code")
 source("bot.R") 
@@ -23,15 +27,17 @@ username=USERNAME
 password=PASSWORD
 apiURL = "http://my.wiki.com/wiki/api.php"
 
-#initialize the bot
-bot = initializeBot(apiURL)
-#login to the wiki
-login(username, password, bot)
+bot = initializeBot(apiURL) #initialize the bot
+login(username, password, bot) #login to the wiki
+</pre>
 
-#get the text on the page
-pageTextread(title="MyWikiPage", bot)
+<h3>Reading page text</h3>
+<pre>
+text = pageTextread(title="MyWikiPage", bot) 
+</pre>
 
-#set the text on the page
+<h3>Editing and saving page text</h3>
+<pre>
 edit(title="MyWikiPage", 
      text="this is the new page text", 
      bot, 
