@@ -11,7 +11,7 @@ read <- function(title, bot){
   
   doc = xmlParse(readResponse, useInternalNodes=TRUE)
   pageText <- xmlValue(unlist(getNodeSet(doc, "//api/query/pages/page/revisions/rev/text()", addFinalizer=FALSE))[[1]])
-  print(pageText)
+  #print(pageText)
   free(doc)
   rm(doc)
   return(pageText)
