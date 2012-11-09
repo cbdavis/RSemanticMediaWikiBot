@@ -101,4 +101,6 @@ The template contains information about the page which it came from, so the name
 <li>When editing a page, no check is done to see if it will create the page.
 <li>This code needs to be converted to a proper package for use in R.
 <li>Nested template calls may not be parsed correctly
+<li>If the code is not able to connect to the wiki API, then it will terminate instead of trying to connect again.  In practical experience, this means that you may have to run a script multiple times if you have several thousand edits.
+<li>There seems to be a memory leak if you read and/or edit around 10,000+ pages.
 </ul>
