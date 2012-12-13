@@ -9,6 +9,7 @@ options(stringsAsFactors = FALSE)
 source("login.R")
 source("edit.R")
 source("read.R")
+source("delete.R")
 source("templates.R")
 
 
