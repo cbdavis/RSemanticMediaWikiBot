@@ -57,40 +57,113 @@ extractTemplates <- function(pageTitle, bot){
       #Convert to a list.  This allows us to reference values via data$point, etc.
       data = as.list(data)
     }
-    templateInfo = list(textVal, pageTitle, templateName, start, end, text, parametersAndValues, data)
-    names(templateInfo) = c("pageText", "pageTitle", "name", "start", "end", "text", "parametersAndValues", "data")
     
-    allTemplateInfo = c(allTemplateInfo, list(templateInfo))
+    if(!is.null(data)){
+      templateInfo = list(textVal, pageTitle, templateName, start, end, text, parametersAndValues, data)
+      names(templateInfo) = c("pageText", "pageTitle", "name", "start", "end", "text", "parametersAndValues", "data")
+      
+      allTemplateInfo = c(allTemplateInfo, list(templateInfo))
+    }
   }
-    
   return(allTemplateInfo)
 }
 
 #This can return multiple templates if you are using multiple instance templates
 getTemplateByName <- function(templateName, pageTitle, bot){  
   allTemplateInfo = extractTemplates(pageTitle, bot)
+  if(is.null(allTemplateInfo)){
+    return(NA)
+  } else {
+    templateName = gsub(" ", "_", templateName) #spaces are converted to underscores to ensure consistent matching
+    templatesToReturn = NULL
+    for (templateInfo in allTemplateInfo){
+      #TODO error here
+      if(templateInfo$name == templateName){
+        templatesToReturn = c(templatesToReturn, list(templateInfo))
+      }
+    }
+    return(templatesToReturn)
+  }
+}
+
+createTemplate <- function(templateName, pageTitle, bot){
+  #TODO start and end cause original data to be erased
+  templateInfo = list(templateName, pageTitle, -1, -1, data.frame())
+  names(templateInfo) = c("name", "pageTitle", "start", "end", "data")
   
-  templateName = gsub(" ", "_", templateName) #spaces are converted to underscores to ensure consistent matching
-  templatesToReturn = NULL
-  for (templateInfo in allTemplateInfo){
-    if(templateInfo$name == templateName){
-      templatesToReturn = c(templatesToReturn, list(templateInfo))
+  #if page does not exist, pageText will be NA
+  pageText = read(title=pageTitle, bot)
+  templateInfo$pageText = pageText
+  
+  return(templateInfo)
+}
+
+
+writeDataFrameToPageTemplates <- function(dataFrame, bot, editSummary="", overWriteConflicts=FALSE){
+  dataFrameEntriesWithConflicts = data.frame()
+  
+  #see if template exists, then grab it, otherwise, create template
+  for(rowNum in c(1:dim(dataFrame)[1])){
+    conflictFound = FALSE
+    print(rowNum)
+    pageTitle = dataFrame[rowNum,1]
+    templateName = dataFrame[rowNum,2]
+    template = getTemplateByName(templateName, pageTitle, bot)[[1]]
+    if (is.na(template)){ #need to create template
+      template = createTemplate(templateName, pageTitle, bot)
+      numParams = dim(dataFrame)[2]-2 #figure out the number of parameters in the csv file
+      template$data = as.data.frame(matrix(nrow=1, ncol=numParams))
+      colnames(template$data) = colnames(dataFrame)[c(3:dim(dataFrame)[2])]
+      #rownames(template$data) = NULL
+      for(colNum in c(3:dim(dataFrame)[2])){
+        template$data[colnames(dataFrame)[colNum]] = dataFrame[rowNum, colNum]
+      }
+    } else { #template already exists
+      #TODO this doesn't handle multiple instance templates
+      template = getTemplateByName(templateName, pageTitle, bot)[[1]]
+      for(colNum in c(3:dim(dataFrame)[2])){
+        # check for conflicts
+        if(colnames(dataFrame)[colNum] %in% names(template$data)){
+          if (template$data[colnames(dataFrame)[colNum]] != dataFrame[rowNum, colNum]){
+            conflictFound == TRUE
+            if (overWriteConflicts == FALSE){
+              dataFrameEntriesWithConflicts = rbind(dataFrameEntriesWithConflicts, dataFrame[rowNum,])
+              warning(paste("CONFLICT - for parameter", 
+                            colnames(dataFrame)[colNum], 
+                            " trying to change ", 
+                            template$data[colnames(dataFrame)[colNum]], 
+                            " to ", 
+                            dataFrame[rowNum, colNum]))
+            }
+          }
+        }
+        template$data[colnames(dataFrame)[colNum]] = dataFrame[rowNum, colNum]
+      }
+    }
+    if (overWriteConflicts == TRUE || conflictFound == TRUE){
+      writeTemplateToPage(template, bot, editSummary=editSummary)
     }
   }
-  return(templatesToReturn)
+  return(dataFrameEntriesWithConflicts)
 }
 
 writeTemplateToPage <- function(template, bot, editSummary=""){
   header = paste("{{", template$name, "\n", sep="")
   dataSection = paste(paste(paste("| ", names(template$data), sep=""), template$data, sep="="), collapse="\n")
-  footer = "}}"
+  footer = "}}\n"
   
   templateText = paste(header, dataSection, footer, sep="")
   
   #now put this back in the main text  
   #get text before and after template
-  textBeforeTemplate = substr(template$pageText, 1, template$start-1)
-  textAfterTemplate = substr(template$pageText, template$end+1, 1000000L)
+  
+  if (is.na(template$pageText)){ #this is a new page, or there is no text on the page
+    textBeforeTemplate = ""
+    textAfterTemplate = ""
+  } else { #this is an existing page
+    textBeforeTemplate = substr(template$pageText, 1, template$start-1)
+    textAfterTemplate = substr(template$pageText, template$end+1, 1000000L)
+  }
   
   #put all the text back together, with the new contents of the template
   newPageText = paste(textBeforeTemplate, templateText, textAfterTemplate, sep="")
