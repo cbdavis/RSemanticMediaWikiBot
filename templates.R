@@ -140,7 +140,7 @@ writeDataFrameToPageTemplates <- function(dataFrame, bot, editSummary="", overWr
         template$data[colnames(dataFrame)[colNum]] = dataFrame[rowNum, colNum]
       }
     }
-    if (overWriteConflicts == TRUE || conflictFound == TRUE){
+    if (overWriteConflicts == TRUE || conflictFound == FALSE){
       writeTemplateToPage(template, bot, editSummary=editSummary)
     }
   }
