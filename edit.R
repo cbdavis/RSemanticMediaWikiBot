@@ -52,3 +52,42 @@ edit <- function(title, text="", bot, summary="", minor=FALSE){
                            text=text,
                            .opts=bot$curlOpts)
 }
+
+
+#action=sfautoedit
+#form=form-name
+#target=page-name
+#query=template-name[field-name-1]=field-value-1%26template-name[field-name-2]=field-value-2
+
+#this should be called for each row in a data frame
+sfautoedit <- function(title, formName, bot, summary="", minor=FALSE){
+  
+  if(is.logical(minor)){
+    minor = as.character(minor)
+  }
+  
+  #TODO no check is done to see if token is stale
+  #get an edit token if we don't have one already
+  if (is.null(bot$edittoken)){
+    bot = getEditToken(bot, title)  
+  }
+  
+  
+  #can pass:
+  #summary
+  #minor
+  #title (or) pageid
+  
+  editResponse = postForm(bot$apiURL,
+                          action="sfautoedit",
+                          format="xml",
+                          target=title,
+                          bot="true",
+                          token=bot$edittoken,
+                          basetimestamp=bot$touched,
+                          starttimestamp=bot$starttimestamp,
+                          summary=summary,
+                          minor=minor,
+                          text=text,
+                          .opts=bot$curlOpts)
+}

@@ -44,6 +44,11 @@ edit(title="MyWikiPage",
      summary="my edit summary")
 </pre>
 
+<h3>Deleting pages</h3>
+<pre>
+delete(pageName, bot, reason="deleting old page")
+</pre>
+
 <h2>Working with template data</h2>
 
 <h3>Extracting templates</h3>
