@@ -14,7 +14,7 @@ The main idea is that this bot converts templates into data structures in R.  Fo
 
 ...and then convert this data into a list within R.  The data contained in the list can be accessed via template$point, template$country, etc.
 
-<h2>Installation</h2>
+##Installation
 Once you check out the code, you can install the package via:
 <pre>
 cd Directory/Of/RSemanticMediaWikiBot
@@ -45,9 +45,9 @@ The functions can then be accessed from within R code by first declaring:
 library(RSemanticMediaWikiBot)
 </pre>
 
-<h2>Basic usage - logging in, reading, editing</h2>
+##Basic usage - logging in, reading, editing
 
-<h3>Logging in</h3>
+###Logging in
 
 <pre>
 #TODO fill these in based on your own configuration
@@ -59,12 +59,12 @@ bot = initializeBot(apiURL) #initialize the bot
 login(username, password, bot) #login to the wiki
 </pre>
 
-<h3>Reading page text</h3>
+###Reading page text
 <pre>
 text = pageTextread(title="MyWikiPage", bot) 
 </pre>
 
-<h3>Editing and saving page text</h3>
+###Editing and saving page text
 <pre>
 edit(title="MyWikiPage", 
      text="this is the new page text", 
@@ -72,14 +72,14 @@ edit(title="MyWikiPage",
      summary="my edit summary")
 </pre>
 
-<h3>Deleting pages</h3>
+###Deleting pages
 <pre>
 delete(pageName, bot, reason="deleting old page")
 </pre>
 
-<h2>Working with template data</h2>
+##Working with template data
 
-<h3>Extracting templates</h3>
+###Extracting templates
 Assuming that you are not working with multiple instance templates, you can retrieve and modify the data in a template as such:
 
 <pre>
@@ -88,7 +88,7 @@ template = getTemplateByName("MyTemplateName", "MyWikiPage", bot)[[1]]
 #If using multiple-instance templates, then multiple templates will be returned
 </pre>
 
-<h3>Getting and modifying values of template parameters</h3>
+###Getting and modifying values of template parameters
 <pre>
 valueOfTemplate = template$data$NameOfTemplateParameter
 </pre>
@@ -98,7 +98,7 @@ You can then modify this value by:
 template$data$NameOfTemplateParameter = newValue
 </pre>
 
-<h3>Removing template parameters</h3>
+###Removing template parameters
 If you want to completely remove a parameter from a template (i.e. both the key and the value) such as changing this:
 <pre>
 {{City
@@ -117,7 +117,7 @@ then you can just do:
 template$data$point = NULL
 </pre>
 
-<h3>Writing the template back to the wiki page</h3>
+###Writing the template back to the wiki page
 The template with its new value can then be written back to the wiki as such:
 
 <pre>
@@ -126,13 +126,22 @@ writeTemplateToPage(template, bot, editSummary="testing bot")
 
 The template contains information about the page which it came from, so the name of the page does not need to be specified.
 
-<h2>Future development/known issues</h2>
+###Writing Spreadsheet Data to Multiple Pages
+Spreadsheet data loaded into a dataframe can be used to make it easy to write data to templates contained on multiple pages.  The first column of the data frame specifies the name of the page, while the second column is the name of the template to write to.  The headers for the rest of the columns need to correspond to the names of the parameters in that template.  The default behavior of this code is to not overwrite existing values unless you explicitly tell it to.  A list of pages for which an existing value for a parameter were found are returned.
+
+<pre>
+# default - will not overwrite existing parameter values that are already set
+errorDFEntries = writeDataFrameToPageTemplates(dataFrame, bot)
+
+# overwrite existing values
+errorDFEntries = writeDataFrameToPageTemplates(dataFrame, bot, overWriteConflicts=FALSE)
+</pre>
+
+##Future development/known issues
 <ul>
-<li>Need to implement CSV to wiki pages functionality.  Two columns will specify the page and template names, while the rest of the columns specify the values for parameters in that template.
 <li>No support yet for multiple-instance templates.  There needs to be a way to distinguish if one wants to edit an existing one, or add another.
 <li>No support yet for adding a new template to a page.
 <li>When editing a page, no check is done to see if it will create the page.
-<li>This code needs to be converted to a proper package for use in R.
 <li>Nested template calls may not be parsed correctly
 <li>If the code is not able to connect to the wiki API, then it will terminate instead of trying to connect again.  In practical experience, this means that you may have to run a script multiple times if you have several thousand edits.
 <li>There seems to be a memory leak if you read and/or edit around 10,000+ pages.
