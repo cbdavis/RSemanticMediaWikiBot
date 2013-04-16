@@ -32,17 +32,17 @@ R CMD check .
 2) Build:
 <pre>
 cd .. 
-R CMD build cd Directory/Of/RSemanticMediaWikiBot
+R CMD build RSemanticMediaWikiBot
 </pre>
 
 3) Install it so that it is accessible within the R environment:
 <pre>
-sudo R CMD INSTALL cd Directory/Of/RSemanticMediaWikiBot_0.1.tar.gz
+sudo R CMD INSTALL RSemanticMediaWikiBot_0.1.tar.gz
 </pre>
 
 The functions can then be accessed from within R code by first declaring:
 <pre>
-library(cd Directory/Of/RSemanticMediaWikiBot)
+library(RSemanticMediaWikiBot)
 </pre>
 
 <h2>Basic usage - logging in, reading, editing</h2>
