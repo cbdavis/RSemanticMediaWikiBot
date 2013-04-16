@@ -1,0 +1,10 @@
+Package: RSMWBot
+Version: 0.1
+Date: 2013-04-16
+Title: R Semantic MediaWiki Bot
+Author: Chris Davis
+Maintainer: Chris Davis <c.b.davis@tudelft.nl>
+Description: Bot for working with Semantic MediaWiki
+License: GPL2.0
+Depends: RCurl, XML, reshape2
+
