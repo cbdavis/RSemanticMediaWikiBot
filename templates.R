@@ -47,7 +47,7 @@ extractTemplates <- function(pageTitle, bot){
       
       if (length(parametersAndValues) > 0){
         #convert this all into a data frame
-        parametersAndValues = colsplit(parametersAndValues, split="=", names=c('parameter', 'value'))
+        parametersAndValues = colsplit(parametersAndValues, "=", names=c('parameter', 'value'))
       
         #store this in a vector with names that we can reference
         #also remove leading and trailing white space
