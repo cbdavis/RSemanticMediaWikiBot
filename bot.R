@@ -1,7 +1,7 @@
 #TODO set these up within an R package to be installed automatically if not installed yet
 library(RCurl) #http POST
 library(XML) #process responses
-library(reshape) #colsplit for working with template parameters and their values
+library(reshape2) #colsplit for working with template parameters and their values
 
 #never ever convert strings to factors
 options(stringsAsFactors = FALSE)
