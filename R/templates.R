@@ -30,7 +30,7 @@ extractTemplates <- function(pageTitle, bot){
       parametersAndValues = strsplit(text, "\\|")[[1]]
       
       #extract name of template
-      templateName = gsub("\n", "", gsub("\\{\\{", "", parametersAndValues[1]))
+      templateName = gsub("\n", "", gsub("\\{\\{|\\}\\}", "", parametersAndValues[1]))
       #replace spaces with underscores
       #this helps to make names consistent if multiple templates of the same type are included, but use both variations for the name
       templateName = gsub(" ", "_", templateName)
@@ -80,7 +80,7 @@ extractTemplates <- function(pageTitle, bot){
 getTemplateByName <- function(templateName, pageTitle, bot){  
   allTemplateInfo = extractTemplates(pageTitle, bot)
   if(is.null(allTemplateInfo)){
-    return(NA)
+    return(NULL)
   } else {
     templateName = gsub(" ", "_", templateName) #spaces are converted to underscores to ensure consistent matching
     templatesToReturn = NULL
@@ -111,13 +111,13 @@ writeDataFrameToPageTemplates <- function(dataFrame, bot, editSummary="", overWr
   dataFrameEntriesWithConflicts = data.frame()
   
   #see if template exists, then grab it, otherwise, create template
-  for(rowNum in c(1:dim(dataFrame)[1])){
+  for(rowNum in c(1:nrow(dataFrame))){
     conflictFound = FALSE
     print(rowNum)
     pageTitle = dataFrame[rowNum,1]
     templateName = dataFrame[rowNum,2]
     template = getTemplateByName(templateName, pageTitle, bot)[[1]]
-    if (is.na(template)){ #need to create template
+    if (is.null(template)){ #need to create template
       template = createTemplate(templateName, pageTitle, bot)
       numParams = dim(dataFrame)[2]-2 #figure out the number of parameters in the csv file
       template$data = as.data.frame(matrix(nrow=1, ncol=numParams))
@@ -128,8 +128,7 @@ writeDataFrameToPageTemplates <- function(dataFrame, bot, editSummary="", overWr
       }
     } else { #template already exists
       #TODO this doesn't handle multiple instance templates
-      template = getTemplateByName(templateName, pageTitle, bot)[[1]]
-      for(colNum in c(3:dim(dataFrame)[2])){
+      for(colNum in c(3:ncol(dataFrame))){
         # check for conflicts
         if(colnames(dataFrame)[colNum] %in% names(template$data)){
           if (template$data[colnames(dataFrame)[colNum]] != dataFrame[rowNum, colNum]){
