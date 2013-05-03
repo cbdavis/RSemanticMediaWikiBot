@@ -61,7 +61,7 @@ login(username, password, bot) #login to the wiki
 
 ###Reading page text
 <pre>
-text = pageTextread(title="MyWikiPage", bot) 
+text = read(title="MyWikiPage", bot) 
 </pre>
 
 ###Editing and saving page text
