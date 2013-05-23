@@ -79,7 +79,7 @@ extractTemplates <- function(pageTitle, bot){
 #This can return multiple templates if you are using multiple instance templates
 getTemplateByName <- function(templateName, pageTitle, bot){  
   allTemplateInfo = extractTemplates(pageTitle, bot)
-  if(is.null(allTemplateInfo)){
+  if(is.null(allTemplateInfo) || is.na(allTemplateInfo)){
     return(NULL)
   } else {
     templateName = gsub(" ", "_", templateName) #spaces are converted to underscores to ensure consistent matching
