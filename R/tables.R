@@ -3,7 +3,7 @@ getWikiTableTextForDataFrame <- function(df, headers="", tableClass="wikitable s
   # if headers aren't specified, just use the column names
   if (headers == "")  {
     headers = colnames(df)
-  } else if (length(headers) != ncol(df)) {
+  } else if (length(headers) != ncol(df)){
     stop("Number of headers for the table is not equal to the number off columns in the data frame")
   }
 
