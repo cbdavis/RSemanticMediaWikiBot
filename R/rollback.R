@@ -1,3 +1,5 @@
+# https://www.mediawiki.org/wiki/API:Rollback
+
 getRollbackToken <- function(bot, title){
   rollBackResponse = postForm(bot$apiURL,
                               action="query",
@@ -29,7 +31,7 @@ getRollbackToken <- function(bot, title){
   return(bot)
 }
 
-rollback <- function(title, user="", bot, summary="", minor=FALSE){
+rollback <- function(title, user="", bot, summary=""){
   
   bot <- getRollbackToken(bot, title)
   for (tokenNum in c(1:length(bot$rollbacktokens))){
