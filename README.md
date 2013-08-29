@@ -137,6 +137,24 @@ errorDFEntries = writeDataFrameToPageTemplates(dataFrame, bot)
 errorDFEntries = writeDataFrameToPageTemplates(dataFrame, bot, overWriteConflicts=FALSE)
 </pre>
 
+
+###Writing a Data Frame to a Table on a Single page###
+The syntax for a sortable wikitable can be generated from a data frame.  The code currently doesn't figure out how to intelligently put it on a page - it's up to you to figure out how to paste things together in some useful way.
+
+<pre>
+# get the wiki table syntax
+wikiTable = getWikiTableTextForDataFrame(df)
+
+# put some text before and after the table
+pageText = paste(someText, "\n\n", wikiTable, "\n\n", someMoreText, sep="")
+  
+# write this all to some wiki page
+edit(title=pageTitle,
+     text=pageText,
+     bot,
+     summary="adding a table")
+</pre>
+
 ##Future development/known issues
 <ul>
 <li>No support yet for multiple-instance templates.  There needs to be a way to distinguish if one wants to edit an existing one, or add another.
