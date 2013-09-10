@@ -65,13 +65,6 @@ extractTemplates <- function(pageTitle, bot){
       
       allTemplateInfo = c(allTemplateInfo, list(templateInfo))
     }
-    
-    if(!is.null(data)){
-      templateInfo = list(textVal, pageTitle, templateName, start, end, text, parametersAndValues, data)
-      names(templateInfo) = c("pageText", "pageTitle", "name", "start", "end", "text", "parametersAndValues", "data")
-      
-      allTemplateInfo = c(allTemplateInfo, list(templateInfo))
-    }
   }
   return(allTemplateInfo)
 }
