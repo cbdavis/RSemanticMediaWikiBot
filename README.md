@@ -131,10 +131,10 @@ Spreadsheet data loaded into a dataframe can be used to make it easy to write da
 
 <pre>
 # default - will not overwrite existing parameter values that are already set
-errorDFEntries = writeDataFrameToPageTemplates(dataFrame, bot)
+errorDFEntries = writeDataFrameToPageTemplates(dataFrame, bot, editSummary="what the bot is doing")
 
 # overwrite existing values
-errorDFEntries = writeDataFrameToPageTemplates(dataFrame, bot, overWriteConflicts=TRUE)
+errorDFEntries = writeDataFrameToPageTemplates(dataFrame, bot, overWriteConflicts=TRUE, editSummary="what the bot is doing")
 </pre>
 
 
