@@ -134,7 +134,7 @@ Spreadsheet data loaded into a dataframe can be used to make it easy to write da
 errorDFEntries = writeDataFrameToPageTemplates(dataFrame, bot)
 
 # overwrite existing values
-errorDFEntries = writeDataFrameToPageTemplates(dataFrame, bot, overWriteConflicts=FALSE)
+errorDFEntries = writeDataFrameToPageTemplates(dataFrame, bot, overWriteConflicts=TRUE)
 </pre>
 
 
