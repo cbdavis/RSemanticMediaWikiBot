@@ -14,7 +14,7 @@ The main idea is that this bot converts templates into data structures in R.  Fo
 
 ...and then convert this data into a list within R.  The data contained in the list can be accessed via template$point, template$country, etc.
 
-##Installation
+## Installation
 Once you check out the code, you can install the package via:
 <pre>
 cd Directory/Of/RSemanticMediaWikiBot
@@ -45,9 +45,9 @@ The functions can then be accessed from within R code by first declaring:
 library(RSemanticMediaWikiBot)
 </pre>
 
-##Basic usage - logging in, reading, editing
+## Basic usage - logging in, reading, editing
 
-###Logging in
+### Logging in
 
 <pre>
 #TODO fill these in based on your own configuration
@@ -59,12 +59,12 @@ bot = initializeBot(apiURL) #initialize the bot
 login(username, password, bot) #login to the wiki
 </pre>
 
-###Reading page text
+### Reading page text
 <pre>
 text = read(title="MyWikiPage", bot) 
 </pre>
 
-###Editing and saving page text
+### Editing and saving page text
 <pre>
 edit(title="MyWikiPage", 
      text="this is the new page text", 
@@ -72,14 +72,14 @@ edit(title="MyWikiPage",
      summary="my edit summary")
 </pre>
 
-###Deleting pages
+### Deleting pages
 <pre>
 delete(pageName, bot, reason="deleting old page")
 </pre>
 
-##Working with template data
+## Working with template data
 
-###Extracting templates
+### Extracting templates
 Assuming that you are not working with multiple instance templates, you can retrieve and modify the data in a template as such:
 
 <pre>
@@ -88,7 +88,7 @@ template = getTemplateByName("MyTemplateName", "MyWikiPage", bot)[[1]]
 #If using multiple-instance templates, then multiple templates will be returned
 </pre>
 
-###Getting and modifying values of template parameters
+### Getting and modifying values of template parameters
 <pre>
 valueOfTemplate = template$data$NameOfTemplateParameter
 </pre>
@@ -98,7 +98,7 @@ You can then modify this value by:
 template$data$NameOfTemplateParameter = newValue
 </pre>
 
-###Removing template parameters
+### Removing template parameters
 If you want to completely remove a parameter from a template (i.e. both the key and the value) such as changing this:
 <pre>
 {{City
@@ -117,7 +117,7 @@ then you can just do:
 template$data$point = NULL
 </pre>
 
-###Writing the template back to the wiki page
+### Writing the template back to the wiki page
 The template with its new value can then be written back to the wiki as such:
 
 <pre>
@@ -126,7 +126,7 @@ writeTemplateToPage(template, bot, editSummary="testing bot")
 
 The template contains information about the page which it came from, so the name of the page does not need to be specified.
 
-###Writing Spreadsheet Data to Multiple Pages
+### Writing Spreadsheet Data to Multiple Pages
 Spreadsheet data loaded into a dataframe can be used to make it easy to write data to templates contained on multiple pages.  The first column of the data frame specifies the name of the page, while the second column is the name of the template to write to.  The headers for the rest of the columns need to correspond to the names of the parameters in that template.  The default behavior of this code is to not overwrite existing values unless you explicitly tell it to.  A list of pages for which an existing value for a parameter were found are returned.
 
 <pre>
@@ -138,7 +138,7 @@ errorDFEntries = writeDataFrameToPageTemplates(dataFrame, bot, overWriteConflict
 </pre>
 
 
-###Writing a Data Frame to a Table on a Single page###
+### Writing a Data Frame to a Table on a Single page###
 The syntax for a sortable wikitable can be generated from a data frame.  The code currently doesn't figure out how to intelligently put it on a page - it's up to you to figure out how to paste things together in some useful way.
 
 <pre>
@@ -155,7 +155,7 @@ edit(title=pageTitle,
      summary="adding a table")
 </pre>
 
-##Future development/known issues
+## Future development/known issues
 <ul>
 <li>No support yet for multiple-instance templates.  There needs to be a way to distinguish if one wants to edit an existing one, or add another.
 <li>No support yet for adding a new template to a page.
