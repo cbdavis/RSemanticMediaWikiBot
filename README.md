@@ -15,30 +15,12 @@ The main idea is that this bot converts templates into data structures in R.  Fo
 ...and then convert this data into a list within R.  The data contained in the list can be accessed via template$point, template$country, etc.
 
 ## Installation
-Once you check out the code, you can install the package via:
-<pre>
-cd Directory/Of/RSemanticMediaWikiBot
-bash ./checkBuildAndInstall.sh
-</pre>
 
-This runs a shell script which performs the steps below:
-
-1) Check that everything is ok:
-<pre>
-cd Directory/Of/RSemanticMediaWikiBot
-R CMD check .
-</pre>
-
-2) Build:
-<pre>
-cd .. 
-R CMD build RSemanticMediaWikiBot
-</pre>
-
-3) Install it so that it is accessible within the R environment:
-<pre>
-sudo R CMD INSTALL RSemanticMediaWikiBot_0.1.tar.gz
-</pre>
+```
+install.packages('devtools') # only if not already installed
+library(devtools)
+install_github("cbdavis/RSemanticMediaWikiBot")
+```
 
 The functions can then be accessed from within R code by first declaring:
 <pre>
