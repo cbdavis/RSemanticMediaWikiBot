@@ -120,7 +120,7 @@ errorDFEntries = writeDataFrameToPageTemplates(dataFrame, bot, overWriteConflict
 </pre>
 
 
-### Writing a Data Frame to a Table on a Single page###
+### Writing a Data Frame to a Table on a Single page
 The syntax for a sortable wikitable can be generated from a data frame.  The code currently doesn't figure out how to intelligently put it on a page - it's up to you to figure out how to paste things together in some useful way.
 
 <pre>
